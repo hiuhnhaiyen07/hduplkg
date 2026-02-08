@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng dẫn Locket Gold</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+/* ===== RESET TAILWIND XUNG ĐỘT ===== */
+*{
+  box-sizing:border-box;
+}
+
+button,
+input,
+label{
+  background:none;
+  border:none;
+}
+
+/* ===== BIẾN MÀU CHUẨN ===== */
+:root{
+  --bg:#EEF6E8;
+  --surface:#F2F4F6;
+  --shadow-dark:rgba(0,0,0,.15);
+  --shadow-light:rgba(255,255,255,1);
+  --text:#0F2A1D;
+  --muted:#6B7280;
+  --accent:#0F2A1D;
+}
+
+/* ===== BODY ===== */
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Inter",sans-serif;
+  background:linear-gradient(180deg,#F4F8F1,var(--bg));
+  color:var(--text);
+}
+
+/* ===== HEADER FIX ===== */
+header{
+  background:rgba(242,244,246,.85)!important;
+  backdrop-filter:blur(10px);
+}
+
+/* ===== 3D CARD / BOX ===== */
+.card,
+.video-box{
+  background:var(--surface);
+  border-radius:26px;
+  padding:26px;
+  box-shadow:
+    14px 14px 28px var(--shadow-dark),
+    -14px -14px 28px var(--shadow-light);
+  transition:.25s ease;
+}
+
+.card:hover,
+.video-box:hover{
+  transform:translateY(-4px);
+}
+
+/* ===== BADGE ===== */
+.badge{
+  display:inline-block;
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  background:var(--surface);
+  box-shadow:
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
+}
+
+/* ===== BUTTON 3D CHUẨN ===== */
+button{
+  background:var(--surface);
+  border-radius:18px;
+  padding:14px 18px;
+  font-weight:600;
+  color:var(--text);
+  cursor:pointer;
+  box-shadow:
+    6px 6px 12px var(--shadow-dark),
+    -6px -6px 12px var(--shadow-light);
+  transition:.2s ease;
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+button:active{
+  transform:translateY(1px);
+  box-shadow:
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light);
+}
+
+/* ===== CTA NÚT LẤY MODULE ===== */
+.neo-btn{
+  padding:18px 46px;
+  border-radius:999px;
+  font-size:17px;
+}
+
+/* ===== OPTION / RADIO ===== */
+.option{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px;
+  border-radius:20px;
+  background:var(--surface);
+  box-shadow:
+    6px 6px 12px var(--shadow-dark),
+    -6px -6px 12px var(--shadow-light);
+  transition:.2s ease;
+}
+
+.option input{display:none}
+
+.option:hover{
+  transform:translateY(-2px);
+}
+
+.option .box{
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  box-shadow:
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
+}
+
+.option input:checked + .box{
+  background:var(--accent);
+}
+
+/* ===== COPY BOX (SEARCH BAR iOS) ===== */
+.copy-box{
+  border-radius:999px;
+  padding:16px 26px;
+  font-weight:600;
+  background:var(--surface);
+  box-shadow:
+    inset 6px 6px 10px var(--shadow-dark),
+    inset -6px -6px 10px var(--shadow-light);
+}
+
+/* ===== TEXT FIX ===== */
+p,
+span{
+  color:var(--text);
+}
+
+.text-gray-500{color:var(--muted)!important}
+.text-gray-700{color:#374151!important}
+
+/* ===== HIDDEN ===== */
+.hidden{display:none}
+/* ===== NÚT NEXT (CTA ĐEN) ===== */
+.next-btn{
+  background:#000 !important;
+  color:#fff !important;
+  box-shadow:
+    6px 6px 14px rgba(0,0,0,.4),
+    -4px -4px 10px rgba(255,255,255,.15);
+}
+
+.next-btn:hover{
+  transform:translateY(-2px);
+}
+
+.next-btn:active{
+  transform:translateY(1px);
+  box-shadow:
+    inset 4px 4px 8px rgba(0,0,0,.6);
+}
+/* ===== VIDEO VUÔNG 1:1 ===== */
+.video-wrap{
+  width:100%;
+  max-width:520px;   /* vuông gọn, đẹp trên mobile */
+  aspect-ratio: 1 / 1;   /* QUAN TRỌNG */
+  margin:16px auto 0;
+  border-radius:24px;
+  overflow:hidden;
+  background:#000;
+  box-shadow:
+    12px 12px 24px rgba(0,0,0,.35),
+    -8px -8px 16px rgba(255,255,255,.6);
+}
+
+/* iframe luôn phủ đầy khung vuông */
+.video-wrap iframe{
+  width:100%;
+  height:100%;
+}
+.video-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+  pointer-events:none;
+}
+/* ===== TOAST OVERLAY ===== */
+.toast{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(4px);
+  z-index:9999;
+}
+
+/* ===== TOAST CARD 3D ===== */
+.toast-card{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:20px 26px;
+  border-radius:22px;
+  background:var(--surface);
+  box-shadow:
+    18px 18px 36px rgba(0,0,0,.25),
+    -12px -12px 24px rgba(255,255,255,.95);
+  animation:toastPop .35s ease;
+}
+
+/* icon */
+.toast-icon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#000;
+  color:#fff;
+  font-size:20px;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* text */
+.toast-text{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.toast-text b{
+  font-size:15px;
+}
+
+.toast-text span{
+  font-size:13px;
+  opacity:.75;
+}
+
+/* animation */
+@keyframes toastPop{
+  from{
+    transform:scale(.85);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+/* ===== CONTACT CARD ===== */
+.contact-card{
+  padding:32px;
+}
+
+/* list */
+.contact-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;
+  margin-top:8px;
+}
+
+/* item */
+.contact-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px;
+  border-radius:18px;
+  background:var(--surface);
+  box-shadow:
+    6px 6px 12px var(--shadow-dark),
+    -6px -6px 12px var(--shadow-light);
+  transition:.2s ease;
+}
+
+.contact-item:hover{
+  transform:translateY(-2px);
+}
+
+/* icon */
+.contact-icon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#000;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+/* text */
+.contact-item b{
+  font-size:14px;
+}
+
+.contact-item p{
+  font-size:13px;
+  opacity:.75;
+}
+/* ===== CONTACT LIST ===== */
+.contact-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+
+/* card item */
+.contact-item{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:20px;
+  border-radius:22px;
+  background:var(--surface);
+  box-shadow:
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+  transition:.25s ease;
+}
+
+.contact-item:hover{
+  transform:translateY(-3px);
+}
+
+/* ===== LOGO MOCK ===== */
+.logo-mock{
+  width:48px;
+  height:48px;
+  border-radius:14px; /* bo vuông giống app iOS */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:20px;
+  background:#000;
+  color:#fff;
+  flex-shrink:0;
+}
+
+/* facebook style */
+.logo-mock.fb{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:22px;
+}
+
+/* mail style */
+.logo-mock.mail{
+  font-family:-apple-system,BlinkMacSystemFont,"Inter",sans-serif;
+}
+
+/* text */
+.contact-text b{
+  font-size:14px;
+}
+
+.contact-text p{
+  font-size:13px;
+  opacity:.75;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="sticky top-0 bg-white/80 backdrop-blur border-b z-10">
+  <div class="max-w-5xl mx-auto px-6 py-5 flex items-center gap-4">
+    <div class="w-10 h-10 rounded-xl bg-[color:var(--navy)] text-white flex items-center justify-center font-bold"></div>
+    <div>
+      <h1 class="font-bold text-lg">Locket Gold</h1>
+      <p class="text-sm text-gray-500">Hướng dẫn cài đặt qua Shadowrocket</p>
+    </div>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section class="max-w-3xl mx-auto px-6 py-16 text-center">
+  <span class="badge mb-4">HƯỚNG DẪN TỪNG BƯỚC</span>
+  <h2 class="text-4xl font-extrabold mb-6">
+    Hướng dẫn kích hoạt<br>Locket Gold
+  </h2>
+  <p class="text-[color:var(--gray)] leading-relaxed">
+    Trang này dùng để <b>hướng dẫn chi tiết từng bước</b>.<br>
+    Vui lòng đọc kỹ và làm đúng thứ tự để tránh lỗi.
+  </p>
+</section>
+
+
+<!-- BƯỚC 1 -->
+<section class="max-w-4xl mx-auto px-6 pb-14">
+  <div class="card">
+    <h3 class="text-2xl font-bold mb-5">Bước 1: Thêm cấu hình vào Shadowrocket</h3>
+
+    <ol class="space-y-4 text-gray-700 list-decimal list-inside">
+      <li>
+        Mở ứng dụng <b>Shadowrocket</b> → vào mục <b>CẤU HÌNH</b> → nhấn dấu <b>+</b> để thêm cấu hình.
+      </li>
+
+      <li>
+        Dán <b>Module Locket Gold</b> vào để tải cấu hình xuống.
+      </li>
+    </ol>
+
+    <div class="mt-5">
+  <p class="font-semibold mb-2">Link Module 1:</p>
+
+  <div class="mt-5 text-center">
+  <button
+    id="startQuizBtn"
+    onclick="scrollToQuiz()"
+    class="w-full py-4 rounded-xl border-2 border-dashed border-[color:var(--sage)]
+           font-semibold text-[color:var(--navy)] bg-white hover:bg-[#f6faf6] transition">
+    📝 Làm kiểm tra để lấy module
+  </button>
+
+  <p class="text-sm text-gray-500 mt-2">
+    Hoàn thành kiểm tra để mở link module
+  </p>
+</div>
+
+    <ol start="3" class="space-y-4 mt-6 text-gray-700 list-decimal list-inside">
+      <li>
+        Sau khi thêm module, nhấn vào biểu tượng <b>ℹ️</b> để chỉnh sửa module <b>Locket Gold</b>.
+      </li>
+      <li>
+        Vào mục <b>Giải mã HTTPS</b> → bật <b>Giải mã HTTPS</b>.
+      </li>
+      <li>
+        Chọn <b>Tạo chứng chỉ mới</b>.
+      </li>
+      <li>
+        Cài chứng chỉ vào hệ thống và <b>cho phép</b> khi được hỏi.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- BƯỚC 2 -->
+<section class="max-w-4xl mx-auto px-6 pb-14">
+  <div class="card">
+    <h3 class="text-2xl font-bold mb-5">Bước 2: Cài đặt cấu hình & tin cậy chứng chỉ</h3>
+
+    <ol class="space-y-4 text-gray-700 list-decimal list-inside">
+      <li>
+        Vào <b>CÀI ĐẶT</b> (trên iPhone) → <b>Cài đặt hồ sơ đã tải về</b> → tiến hành cài đặt cấu hình Shadowrocket.
+      </li>
+    </ol>
+
+    <div class="mt-4 p-4 rounded-xl bg-yellow-50 text-gray-700 text-sm">
+      <b>Lưu ý:</b><br>
+      Nếu không thấy mục <b>Cài đặt hồ sơ đã tải về</b>, hãy vào:<br>
+      <b>CÀI ĐẶT → CÀI ĐẶT CHUNG → QUẢN LÝ VPN & THIẾT BỊ</b>
+    </div>
+
+    <ol start="2" class="space-y-4 mt-5 text-gray-700 list-decimal list-inside">
+      <li>
+        Sau khi cài đặt xong, vào tiếp:<br>
+        <b>CÀI ĐẶT CHUNG → GIỚI THIỆU → CÀI ĐẶT TIN CẬY CHỨNG NHẬN</b><br>
+        Sau đó bật <b>Shadowrocket</b>.
+      </li>
+      <li>
+        Quay lại Shadowrocket, nếu hiển thị trạng thái <b>“Tin Cậy”</b> là đã thành công.
+      </li>
+    </ol>
+
+    <div class="mt-4 p-4 rounded-xl bg-red-50 text-gray-700 text-sm">
+      <b>Nếu KHÔNG có mục Tin Cậy:</b><br>
+      • Vui lòng làm lại từ đầu, chắc chắn bạn đã sai ở một bước nào đó.<br>
+      • Khi xóa app Shadowrocket, nhớ vào <b>CÀI ĐẶT CHUNG → QUẢN LÝ VPN & THIẾT BỊ</b> để xóa cấu hình cũ.
+    </div>
+  </div>
+</section>
+
+<!-- BƯỚC 3 -->
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="card">
+    <h3 class="text-2xl font-bold mb-5">Bước 3: Kích hoạt Locket Gold</h3>
+    <ol class="space-y-4 text-gray-700 list-decimal list-inside">
+      <li>Bật <b>Shadowrocket</b>.</li>
+      <li>Mở ứng dụng <b>Locket</b>.</li>
+      <li>Locket sẽ <b>tự động kích hoạt Gold</b> cho bạn.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- KIỂM TRA ĐÃ HIỂU (RÚT GỌN) -->
+<section class="max-w-3xl mx-auto px-6 pb-16">
+  <div class="card">
+    <span class="badge mb-4">KIỂM TRA HIỂU</span>
+
+    <h3 class="text-2xl font-bold mb-3">
+      Xác nhận bạn đã hiểu quy trình
+    </h3>
+
+    <p class="text-gray-700 mb-6">
+      Trả lời đúng từng câu để tiếp tục.
+    </p>
+
+    <!-- CÂU HỎI -->
+    <div id="quizBox">
+
+      <!-- Q1 -->
+      <div class="quiz-step">
+        <div class="q-wrap mb-4">
+          <div class="q-num">1</div>
+          <div class="q-content">
+            <p class="font-semibold">Sau khi thêm module, bước tiếp theo?</p>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="radio" name="q1" value="wrong">
+          <div class="box"></div>
+          <span>Mở Locket ngay</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q1" value="correct">
+          <div class="box"></div>
+          <span>Bật Giải mã HTTPS và tạo chứng chỉ</span>
+        </label>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-step hidden">
+        <div class="q-wrap mb-4">
+          <div class="q-num">2</div>
+          <div class="q-content">
+            <p class="font-semibold">Không bật HTTPS sẽ gây ra?</p>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="radio" name="q2" value="correct">
+          <div class="box"></div>
+          <span>Không kích hoạt được Gold</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q2" value="wrong">
+          <div class="box"></div>
+          <span>Không ảnh hưởng</span>
+        </label>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-step hidden">
+        <div class="q-wrap mb-4">
+          <div class="q-num">3</div>
+          <div class="q-content">
+            <p class="font-semibold">Sau khi tạo chứng chỉ, làm gì?</p>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="radio" name="q3" value="correct">
+          <div class="box"></div>
+          <span>Vào Cài đặt để cài hồ sơ</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q3" value="wrong">
+          <div class="box"></div>
+          <span>Mở Locket</span>
+        </label>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-step hidden">
+        <div class="q-wrap mb-4">
+          <div class="q-num">4</div>
+          <div class="q-content">
+            <p class="font-semibold">Không thấy “Đã tải về” thì vào đâu?</p>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="radio" name="q4" value="correct">
+          <div class="box"></div>
+          <span>Quản lý VPN & Thiết bị</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q4" value="wrong">
+          <div class="box"></div>
+          <span>Cài lại app</span>
+        </label>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-step hidden">
+        <div class="q-wrap mb-4">
+          <div class="q-num">5</div>
+          <div class="q-content">
+            <p class="font-semibold">Khi nào mở app Locket?</p>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="radio" name="q5" value="correct">
+          <div class="box"></div>
+          <span>Khi Shadowrocket báo “Tin cậy”</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q5" value="wrong">
+          <div class="box"></div>
+          <span>Ngay sau khi thêm module</span>
+        </label>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-step hidden">
+        <div class="q-wrap mb-4">
+          <div class="q-num">6</div>
+          <div class="q-content">
+            <p class="font-semibold">Trường hợp KHÔNG dùng được?</p>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="radio" name="q6" value="correct">
+          <div class="box"></div>
+          <span>Máy bị MDM</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="q6" value="wrong">
+          <div class="box"></div>
+          <span>iPad</span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- NÚT ĐIỀU HƯỚNG -->
+    <div class="flex gap-3 mt-6">
+      <button
+        onclick="prevStep()"
+        class="flex-1 py-3 rounded-xl border font-semibold">
+        Quay lại
+      </button>
+
+      <button
+  onclick="nextStep()"
+  class="flex-1 py-3 rounded-xl font-semibold next-btn">
+  Tiếp theo
+</button>
+    </div>
+
+    <p id="understandMsg" class="mt-4 text-center font-semibold"></p>
+    <div id="afterPassBtns" class="hidden mt-12 flex justify-center">
+  <button onclick="copyModule()" class="neo-btn">
+    Lấy Module Locket Gold
+  </button>
+</div>
+  </div>
+</section>
+
+<!-- VIDEO HƯỚNG DẪN -->
+<section class="max-w-4xl mx-auto px-6 pb-16">
+  <div class="video-box text-center">
+    <span class="badge mb-4">VIDEO HƯỚNG DẪN</span>
+
+    <h3 class="text-2xl font-bold mb-4">
+      Xem video cài đặt Locket Gold
+    </h3>
+
+    <p class="text-[color:var(--gray)] mb-6">
+      Nếu bạn làm theo chữ vẫn khó hiểu, hãy xem video bên dưới và làm từng bước giống trong video.
+    </p>
+
+    <div class="video-wrap">
+      <iframe
+        loading="lazy"
+        src="https://www.youtube.com/embed/8pWkiQTMNGU"
+        title="Hướng dẫn Locket Gold"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <p class="text-sm text-gray-500 mt-4">
+      📌 Khuyến nghị xem không tua trước khi bắt đầu cài đặt
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-4xl mx-auto px-6 pb-24">
+  <div class="card">
+    <h3 class="text-2xl font-bold mb-6">Câu hỏi thường gặp</h3>
+
+    <div class="space-y-5 text-gray-700">
+      <p><b>• Có cần đăng nhập tài khoản không?</b><br>Không. Chỉ cần cài đúng là dùng được.</p>
+
+      <p><b>• Có an toàn không?</b><br>
+      Module chỉ can thiệp để mở tính năng Gold, không thu thập dữ liệu cá nhân.</p>
+
+      <p><b>• Sao cài xong mà chưa thấy Gold?</b><br>
+      Thoát app Locket → mở lại, hoặc khởi động lại máy.</p>
+
+      <p><b>• iPad dùng được không?</b><br>
+      Có. Hỗ trợ cả iPhone và iPad.</p>
+
+      <p><b>• Máy bị MDM thì sao?</b><br>
+      Máy bị quản lý MDM sẽ không sử dụng được cách này.</p>
+    </div>
+  </div>
+</section>
+<!-- LIÊN HỆ -->
+<section class="max-w-4xl mx-auto px-6 pb-20">
+  <div class="card contact-card text-center">
+    <span class="badge mb-4">LIÊN HỆ</span>
+
+    <h3 class="text-2xl font-bold mb-2">
+      Hỗ trợ & liên hệ
+    </h3>
+
+    <p class="text-gray-700 mb-8">
+      Nếu bạn gặp lỗi trong quá trình cài đặt hoặc cần hỗ trợ thêm,
+      hãy liên hệ trực tiếp qua các kênh bên dưới.
+    </p>
+
+    <div class="contact-list">
+      <!-- FACEBOOK -->
+      <div class="contact-item">
+        <div class="logo-mock fb">f</div>
+        <div class="contact-text">
+          <b>Facebook</b>
+          <p>Kim Yến</p>
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="contact-item">
+        <div class="logo-mock mail">M</div>
+        <div class="contact-text">
+          <b>Email</b>
+          <p>leecimin28@gmail.com</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-sm text-gray-500 mt-8">
+      ⏱ Thời gian hỗ trợ: 9:00 – 22:00 mỗi ngày
+    </p>
+  </div>
+</section>
+
+<footer class="text-center text-sm text-gray-500 pb-10">
+  © 2026 • Trang hướng dẫn Locket Gold • iOS
+</footer>
+
+<script>
+function copyModule(){
+  const text = document.getElementById("module").innerText.trim();
+  navigator.clipboard.writeText(text);
+  document.getElementById("copyMsg").innerText = "Đã sao chép link module ✔";
+  setTimeout(()=>{
+    document.getElementById("copyMsg").innerText="Nhấn vào khung để sao chép link";
+  },2000);
+}
+</script>
+<script>
+const MODULE_LINK = "https://raw.githubusercontent.com/PhucAnhIT/ALL-IN-ONE/refs/heads/main/ALL_IN_ONE.sgmodule?v123";
+
+let step = 0;
+const steps = document.querySelectorAll(".quiz-step");
+
+function show(){
+  steps.forEach((s,i)=>s.classList.toggle("hidden", i !== step));
+}
+show();
+
+function nextStep(){
+  const q = steps[step].querySelector("input:checked");
+  if(!q) return showMsg("Vui lòng chọn đáp án trước");
+  if(q.value !== "correct") return showMsg("NGU. Vui lòng đọc lại hướng dẫn.");
+
+  if(step < steps.length - 1){
+    step++;
+    show();
+    showMsg("");
+  }else{
+    showMsg("✔ Bạn đã hoàn thành kiểm tra. Bạn có thể lấy module.", true);
+    document.getElementById("afterPassBtns").classList.remove("hidden");
+    if (navigator.vibrate) navigator.vibrate(50);
+  }
+}
+
+function prevStep(){
+  if(step > 0){
+    step--;
+    show();
+    showMsg("");
+  }
+}
+
+function showMsg(text, ok=false){
+  const m = document.getElementById("understandMsg");
+  m.innerText = text;
+  m.className = "mt-4 text-center font-semibold";
+  if(ok) m.classList.add("text-green-600");
+}
+
+function copyModule(){
+  navigator.clipboard.writeText(MODULE_LINK);
+
+  const toast = document.getElementById("copyToast");
+  toast.classList.remove("hidden");
+
+  if (navigator.vibrate) navigator.vibrate([20,30,20]);
+
+  setTimeout(()=>{
+    toast.classList.add("hidden");
+  }, 2000);
+}
+
+function scrollToQuiz(){
+  document.getElementById("quizBox").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+function finishGuide(){
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+<!-- TOAST COPY MODULE -->
+<div id="copyToast" class="toast hidden">
+  <div class="toast-card">
+    <div class="toast-icon">✓</div>
+    <div class="toast-text">
+      <b>Đã sao chép module</b>
+      <span>Link module đã được lưu vào clipboard</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
